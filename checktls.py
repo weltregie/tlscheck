@@ -5,10 +5,7 @@ from socket import *
 from dns import resolver
 
 def get_mx(domain):
-    # returns list of mx servers of a domain
-    mxes = []
-    for mx in resolver.query(domain, 'MX'):
-        mxes.append(mx.to_text().split()[1:][0][:-1])
+    mxes = [x.to_text().split()[1][:-1] for x in resolver.query(domain, 'MX')]
     return mxes
 
 domains = ('finkenberger.org', 'gmx.de', 'web.de', 'hotmail.com', 'yahoo.com',
