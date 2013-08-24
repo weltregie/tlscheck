@@ -5,10 +5,11 @@ from socket import *
 from dns import resolver
 
 def get_mx(domain):
+    # returns list of mx servers of a domain
+    mxes = []
     for mx in resolver.query(domain, 'MX'):
-        # get first MX server
-        first_mx = mx.to_text().split()[1][:-1]
-    return first_mx
+        mxes.append(mx.to_text().split()[1:][0][:-1])
+    return mxes
 
 domains = ('finkenberger.org', 'gmx.de', 'web.de', 'hotmail.com', 'yahoo.com',
            'aol.com', 'gmail.com', 't-online.de')
@@ -17,7 +18,7 @@ tls_supported = []
 tls_not_supported = []
 
 for domain in domains:
-    domain_mx = get_mx(domain)
+    domain_mx = get_mx(domain)[0]
     try:
         client_socket = socket(AF_INET, SOCK_STREAM)
         client_socket.connect((domain_mx, 25))
