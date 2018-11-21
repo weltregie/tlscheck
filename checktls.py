@@ -6,7 +6,7 @@ from dns import resolver
 import smtplib
 
 
-domains = ('finkenberger.org', 'gmx.de', 'web.de', 'hotmail.com', 'yahoo.com',
+domains = ('gmx.de', 'web.de', 'hotmail.com', 'yahoo.com',
            'aol.com', 'gmail.com', 't-online.de')
 
 def get_mx(domain):
