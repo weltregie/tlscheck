@@ -14,12 +14,14 @@ def get_mx(domain):
     return mxes
 
 def check_mx_tls(domain_mx):
-    smtp = smtplib.SMTP(domain_mx)
     try:
+	smtp = smtplib.SMTP(domain_mx)
         smtp.ehlo()
-        return smtp.has_extn('STARTTLS')
-    finally:
-        smtp.quit()
+	result = smtp.has_extn('STARTTLS')
+	smtp.quit()
+	return result
+    except Exception:
+	return None
 
 tls_supported = []
 tls_not_supported = []
