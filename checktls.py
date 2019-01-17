@@ -9,9 +9,15 @@ import smtplib
 domains = ('gmx.de', 'web.de', 'hotmail.com', 'yahoo.com',
            'aol.com', 'gmail.com', 't-online.de')
 
-def get_mx(domain):
-    mxes = [x.to_text().split()[1][:-1] for x in resolver.query(domain, 'MX')]
-    return mxes
+def get_mx_servers_by_priority(domain):
+    # returns list of mx servers sorted by priority
+    try:
+        mx_records = [x.to_text().split() for x in resolver.query(domain, 'MX')]
+        mx_records.sort() 
+        servers_by_priority = [record[1][:-1] for record in mx_records]
+        return servers_by_priority
+    except (resolver.NoAnswer, resolver.NXDOMAIN, resolver.Timeout):
+        return None 
 
 def check_mx_tls(domain_mx):
     try:
